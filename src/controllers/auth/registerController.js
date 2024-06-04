@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt'
 
 import sequelize from "../../database.js";
 import ControllerResponse from "../../utils/mvcClasses/ControllerResponse.js";
+import { sendMail } from "../../config/nodemailer.js";
 
 // models
 const { Users, UserProfile } = sequelize.models;
@@ -51,8 +52,11 @@ async function registerController(userData) {
         // create a new UserProfile instance
         await transaction.commit()
 
+        // send verification email
+        await sendMail(email, username)
+
         // return a success response
-        return ControllerResponse.success("Usuario registrado correctamente")
+        return ControllerResponse.success("¡Registro exitoso!")
 
         // catch any errors that may occur during the transaction
     } catch (error) {

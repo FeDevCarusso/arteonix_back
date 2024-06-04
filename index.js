@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import app from './src/app.js';
 import sequelize from './src/database.js';
 import { DataTypes } from 'sequelize';
+import transporter from './src/config/nodemailer.js';
 
 // Load environment variables from .env file
 dotenv.config({ path: './.env' });
@@ -12,15 +13,18 @@ dotenv.config({ path: './.env' });
 // Get the port from environment variables
 const { PORT } = process.env
 
+
+
+
 // Start the server
 async function startServer(force) {
     try {
         // Connect to the database
-        // await sequelize.authenticate()
+        await sequelize.authenticate()
         console.log("Database connected")
 
         // Sync the models with the database
-        // await sequelize.sync({ force })
+        await sequelize.sync({ force })
         console.log("Database synced")
 
         // Print the models
@@ -41,5 +45,5 @@ async function startServer(force) {
 
 
 // Starting the server
-startServer(false)
+startServer(true)
 
