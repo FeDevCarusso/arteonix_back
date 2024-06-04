@@ -12,6 +12,11 @@ class ControllerResponse {
     static conflict(message, data) {
         return new ControllerResponse(message, data, null, 409);
     }
+
+    static badRequest(message, error) {
+        return new ControllerResponse(message, null, error, 400);
+    }
+
     static error(message, error) {
         return new ControllerResponse(message, null, error, 500);
     }
