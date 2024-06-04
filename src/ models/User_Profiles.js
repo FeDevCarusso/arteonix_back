@@ -1,14 +1,13 @@
-export default (sequelize) => {
+import { DataTypes } from "sequelize";
+
+const UserProfileModel = (sequelize) => {
   const UserProfile = sequelize.define('UserProfile', {
-    user_id: {
+    id: {
       type: DataTypes.UUID,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
+
     bio: {
       type: DataTypes.TEXT,
     },
@@ -16,16 +15,9 @@ export default (sequelize) => {
       type: DataTypes.JSONB,
     },
     profile_picture: {
-      type: DataTypes.VARCHAR,
+      type: DataTypes.STRING,
     },
-    created_at: {
-      type: DataTypes.TIMESTAMP,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-      type: DataTypes.TIMESTAMP,
-      defaultValue: DataTypes.NOW,
-    },
+
   }, {
     underscored: true,
     freezeTableName: true,
@@ -33,3 +25,6 @@ export default (sequelize) => {
   });
   return UserProfile;
 };
+
+
+export default UserProfileModel;

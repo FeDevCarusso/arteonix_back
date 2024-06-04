@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 
-export default (sequelize) => {
-  const User = sequelize.define('User', {
+const UsersModel = (sequelize) => {
+  const User = sequelize.define('Users', {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -20,13 +20,9 @@ export default (sequelize) => {
     },
     role: {
       type: DataTypes.ENUM('artist', 'buyer'),
+      allowNull: false,
     },
-    created_at: {
-      type: DataTypes.DATE,
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-    },
+
   }, {
     // New indentation
     underscored: true,
@@ -35,3 +31,5 @@ export default (sequelize) => {
   });
   return User;
 };
+
+export default UsersModel;
