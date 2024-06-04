@@ -2,7 +2,7 @@
 
 import { Op } from "sequelize";
 import bcrypt from 'bcrypt'
-
+import crypto from 'node:crypto'
 // local imports
 
 import sequelize from "../../database.js";
@@ -10,7 +10,7 @@ import ControllerResponse from "../../utils/mvcClasses/ControllerResponse.js";
 import { sendMail } from "../../config/nodemailer.js";
 
 // models
-const { Users, UserProfile } = sequelize.models;
+const { Users, UserProfile, ConfirmationTokens } = sequelize.models;
 
 // register controller
 async function registerController(userData) {
@@ -49,12 +49,32 @@ async function registerController(userData) {
             return ControllerResponse.conflict("El usuario ya existe")
         }
 
-        // create a new UserProfile instance
-        await transaction.commit()
+        const generatedVerifyToken = crypto.randomBytes(13).toString("hex")
+        const verifyTokenExpiry = new Date(Date.now() + 3600000) // 1 hour
+        const [savedToken, isNewToken] = await ConfirmationTokens.findOrCreate({
+            where: {
+                token: generatedVerifyToken
+            },
+            defaults: {
+                token: generatedVerifyToken,
+                expiresAt: verifyTokenExpiry,
+                userId: user.id
+            }, transaction
+        })
+
+        if (!isNewToken) {
+            console.error("error while creating token")
+            return ControllerResponse.error("Error al registrar el usuario")
+        }
+
+        //relate created models
+        await user.setConfirmationTokens(savedToken)
 
         // send verification email
-        await sendMail(email, username)
+        await sendMail(email, username, savedToken.token)
 
+        // create a new UserProfile instance
+        await transaction.commit()
         // return a success response
         return ControllerResponse.success("¡Registro exitoso!")
 
