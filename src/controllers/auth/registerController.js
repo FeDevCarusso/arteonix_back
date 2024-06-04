@@ -75,6 +75,8 @@ async function registerController(userData) {
 
         // create a new UserProfile instance
         await transaction.commit()
+        //dev TODO 
+        console.log(generatedVerifyToken)
         // return a success response
         return ControllerResponse.success("¡Registro exitoso!")
 

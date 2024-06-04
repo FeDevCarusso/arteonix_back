@@ -25,6 +25,11 @@ const UsersModel = (sequelize) => {
       type: DataTypes.ENUM('artist', 'buyer'),
       allowNull: false,
     },
+    confirmed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }
 
   }, {
     // New indentation
