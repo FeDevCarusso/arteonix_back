@@ -44,7 +44,7 @@ export default async function validateLoginStatus(req, res, next) {
                 token
             }
         })
- 
+
         // if token is blacklisted, token is invalid
         if (tokenBlacklisted) {
             const result = ControllerResponse.badRequest("Iniciá sesión para continuar")
@@ -52,6 +52,9 @@ export default async function validateLoginStatus(req, res, next) {
         }
 
         // set user data to request object
+        req.loggedIn = true;
+
+        // call next middleware
         return next()
 
 
@@ -78,4 +81,23 @@ export default async function validateLoginStatus(req, res, next) {
     }
 
 
+}
+
+export function checkNOTLoggedIn(req, res, next) {
+    try {
+        // check if user is logged in
+        const isLoggedIn = req.loggedIn;
+
+        // if user is logged in, return error
+        if (isLoggedIn) {
+            const { message, status, error, data } = ControllerResponse.badRequest("Ya iniciaste sesión")
+            return response(res, status, message, error, data)
+        }
+
+        // call next middleware
+        return next()
+
+    } catch (error) {
+        console.error(error)
+    }
 }

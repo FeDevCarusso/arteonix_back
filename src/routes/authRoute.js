@@ -11,7 +11,7 @@ import {
   registerSchema,
 } from "../utils/validators/validations.js";
 import logoutHandler from "../handlers/auth/logoutHandler.js";
-import validateLoginStatus from "../middlewares/authentication/validateLoginStatus.js";
+import validateLoginStatus, { checkNOTLoggedIn } from "../middlewares/authentication/validateLoginStatus.js";
 import verifyAccountHandler from "../handlers/auth/verifyAccountHandler.js";
 import response from "../utils/functions/response.js";
 
