@@ -16,11 +16,11 @@ const { PORT } = process.env
 async function startServer(force) {
     try {
         // Connect to the database
-        await sequelize.authenticate()
+        // await sequelize.authenticate()
         console.log("Database connected")
 
         // Sync the models with the database
-        await sequelize.sync({ force })
+        // await sequelize.sync({ force })
         console.log("Database synced")
 
         // Print the models
@@ -39,6 +39,7 @@ async function startServer(force) {
     }
 }
 
+
 // Starting the server
-startServer(true)
+startServer(false)
 

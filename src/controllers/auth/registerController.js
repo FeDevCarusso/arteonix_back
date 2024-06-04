@@ -1,6 +1,7 @@
 // 3rd party imports 
 
 import { Op } from "sequelize";
+import bcrypt from 'bcrypt'
 
 // local imports
 
@@ -12,13 +13,14 @@ const { Users, UserProfile } = sequelize.models;
 
 // register controller
 async function registerController(userData) {
-    try {
 
+    // create a transaction to ensure consistency
+    const transaction = await sequelize.transaction()
+
+    try {
         // get the data from the request body
         const { username, password, email, role } = userData
-
-        // create a transaction to ensure consistency
-        const transaction = await sequelize.transaction()
+        const hashedPw = await bcrypt.hash(password, 10)
 
         // check if the username or email already exists
         const [user, isNew] = await Users.findOrCreate({
@@ -29,7 +31,7 @@ async function registerController(userData) {
             defaults: {
                 username: username,
                 email: email,
-                password: password,
+                password: hashedPw,
                 role: role
             },
             transaction

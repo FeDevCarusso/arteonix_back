@@ -9,6 +9,15 @@ class ControllerResponse {
     static success(message, data) {
         return new ControllerResponse(message, data, null, 200);
     }
+
+    static notFound(message, data) {
+        return new ControllerResponse(message, data, null, 404);
+    }
+
+    static notAuthorized(message, data) {
+        return new ControllerResponse(message, data, null, 401);
+    }
+
     static conflict(message, data) {
         return new ControllerResponse(message, data, null, 409);
     }

@@ -1,4 +1,5 @@
 import { registerController } from "../../controllers/auth/registerController.js"
+import response from "../../utils/functions/response.js"
 import ControllerResponse from "../../utils/mvcClasses/ControllerResponse.js"
 
 async function registerHandler(req, res) {
@@ -6,10 +7,10 @@ async function registerHandler(req, res) {
         const { username, email, password, role } = req.body
         const { message, data, error, status } = await registerController({ username, email, password, role })
 
-        return res.status(status).json({ message, data, error })
+        return response(res, status, message, error, data)
 
     } catch (error) {
-
+        console.error(error)
     }
 }
 

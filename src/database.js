@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import { Sequelize } from "sequelize";
 import UsersModel from './ models/Users.js'
 import UserProfileModel from './ models/User_Profiles.js'
+import TokensBlacklistModel from "./ models/TokensBlacklist.js";
 
 //env variables
 config()
@@ -21,6 +22,7 @@ const sequelize = new Sequelize(DB_URL, {
 
 UsersModel(sequelize)
 UserProfileModel(sequelize)
+TokensBlacklistModel(sequelize)
 
 const { Users, UserProfile } = sequelize.models
 

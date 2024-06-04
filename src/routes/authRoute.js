@@ -1,10 +1,33 @@
+// 3rd party imports
 import { Router } from "express";
-import { registerHandler } from "../handlers/auth/authHandler.js";
-import { authSchema } from "../utils/validators/validations.js";
+
+// local imports
+
 import validatorMiddleware from "../middlewares/validatorMiddleare.js";
+import { loginHandler } from "../handlers/auth/loginHandler.js";
+import { registerHandler } from "../handlers/auth/registerHandler.js";
+import {
+  loginSchema,
+  registerSchema,
+} from "../utils/validators/validations.js";
+import logoutHandler from "../handlers/auth/logoutHandler.js";
+import validateLoginStatus from "../middlewares/authentication/validateLoginStatus.js";
 
-const authRouter = Router()
+// router
+const authRouter = Router();
 
-authRouter.post("/", (req, res, next) => validatorMiddleware(authSchema, req, res, next), registerHandler)
+// routes
+authRouter.post(
+  "/register",
+  (req, res, next) => validatorMiddleware(registerSchema, req, res, next),
+  registerHandler
+);
+authRouter.post(
+  "/login",
+  (req, res, next) => validatorMiddleware(loginSchema, req, res, next),
+  loginHandler
+);
+authRouter.get("/logout", validateLoginStatus, logoutHandler);
 
-export default authRouter
+// export
+export default authRouter;
