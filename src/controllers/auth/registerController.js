@@ -40,6 +40,7 @@ async function registerController(userData) {
     // check if the user was created successfully
     if (isNew && !user) {
       console.error("error while registering user");
+      await transaction.rollback();
       return ControllerResponse.error(
         "Error al registrar el usuario",
         null,
@@ -49,6 +50,7 @@ async function registerController(userData) {
 
     // check if the user already has a profile
     if (!isNew) {
+      await transaction.rollback();
       return ControllerResponse.conflict("El usuario ya existe", null, true);
     }
 
@@ -68,6 +70,7 @@ async function registerController(userData) {
 
     if (!isNewToken) {
       console.error("error while creating token");
+      await transaction.rollback();
       return ControllerResponse.error(
         "Error al registrar el usuario",
         null,
@@ -85,6 +88,7 @@ async function registerController(userData) {
     await transaction.commit();
     //dev TODO
     console.log(generatedVerifyToken);
+
     // return a success response
     return ControllerResponse.success("¡Registro exitoso!", null, true);
 
@@ -92,13 +96,11 @@ async function registerController(userData) {
   } catch (error) {
     // rollback the transaction if an error occurs
     await transaction.rollback();
-
     // log the error
     console.log("Error registering an user:");
 
     // return an error response
     console.error(error);
-
     return ControllerResponse.error(
       "Error al registrar el usuario",
       null,

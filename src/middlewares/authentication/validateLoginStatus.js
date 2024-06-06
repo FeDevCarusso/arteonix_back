@@ -19,11 +19,9 @@ const { TokensBlacklist } = sequelize.models;
 // Validate login status
 export default async function validateLoginStatus(req, res, next) {
   try {
-    //obtain action from header
-
     // obtain token from header
     const token = req.headers?.authorization?.split(" ")[1] ?? null;
-
+    console.log(req.headers);
     // verify if token exists
     if (!token) {
       const result = ControllerResponse.notAuthorized(

@@ -56,11 +56,7 @@ async function loginController(userData) {
     const token = generateToken({ id: user.id, username: user.username });
 
     // return success response
-    return ControllerResponse.success(
-      "Inicio de sesión exitoso",
-      { token },
-      true
-    );
+    return ControllerResponse.success("Inicio de sesión exitoso", token, true);
   } catch (error) {
     console.log("Error al iniciar sesión");
     console.error(error);
