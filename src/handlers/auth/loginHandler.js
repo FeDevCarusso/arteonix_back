@@ -17,8 +17,7 @@ async function loginHandler(req, res) {
 
     if (!!data) {
       // set up the cookie
-      res.setHeader("token", "Bearer " + data);
-      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Token", "Bearer " + data);
     }
 
     //return response

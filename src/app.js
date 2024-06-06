@@ -18,8 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: CORS_ORIGIN,
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization", "Token"],
     credentials: true,
+    exposedHeaders: ["Token"],
   })
 );
 app.use(cookieParser());
