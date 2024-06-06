@@ -1,34 +1,35 @@
 class ControllerResponse {
-    constructor(message, data, error, status) {
-        this.message = message;
-        this.data = data;
-        this.error = error;
-        this.status = status;
-    }
+  constructor(message, data, error, status, done) {
+    this.message = message;
+    this.data = data;
+    this.error = error;
+    this.status = status;
+    this.done = done;
+  }
 
-    static success(message, data) {
-        return new ControllerResponse(message, data, null, 200);
-    }
+  static success(message, data, done) {
+    return new ControllerResponse(message, data, null, 200, done);
+  }
 
-    static notFound(message, data) {
-        return new ControllerResponse(message, data, null, 404);
-    }
+  static notFound(message, data, done) {
+    return new ControllerResponse(message, data, null, 404, done);
+  }
 
-    static notAuthorized(message, data) {
-        return new ControllerResponse(message, data, null, 401);
-    }
+  static notAuthorized(message, data, done) {
+    return new ControllerResponse(message, data, null, 401, done);
+  }
 
-    static conflict(message, data) {
-        return new ControllerResponse(message, data, null, 409);
-    }
+  static conflict(message, data, done) {
+    return new ControllerResponse(message, data, null, 409, done);
+  }
 
-    static badRequest(message, error) {
-        return new ControllerResponse(message, null, error, 400);
-    }
+  static badRequest(message, error, done) {
+    return new ControllerResponse(message, null, error, 400, done);
+  }
 
-    static error(message, error) {
-        return new ControllerResponse(message, null, error, 500);
-    }
+  static error(message, error, done) {
+    return new ControllerResponse(message, null, error, 500, done);
+  }
 }
 
-export default ControllerResponse
+export default ControllerResponse;

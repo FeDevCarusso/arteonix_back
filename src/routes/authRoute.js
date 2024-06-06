@@ -11,9 +11,12 @@ import {
   registerSchema,
 } from "../utils/validators/validations.js";
 import logoutHandler from "../handlers/auth/logoutHandler.js";
-import validateLoginStatus, { checkNOTLoggedIn } from "../middlewares/authentication/validateLoginStatus.js";
+import validateLoginStatus, {
+  checkNOTLoggedIn,
+} from "../middlewares/authentication/validateLoginStatus.js";
 import verifyAccountHandler from "../handlers/auth/verifyAccountHandler.js";
 import response from "../utils/functions/response.js";
+import loginStatusHandler from "../handlers/auth/loginStatusHandler.js";
 
 // router
 const authRouter = Router();
@@ -21,7 +24,9 @@ const authRouter = Router();
 // routes
 
 // register
-authRouter.post("/register", (req, res, next) => validatorMiddleware(registerSchema, req, res, next),
+authRouter.post(
+  "/register",
+  (req, res, next) => validatorMiddleware(registerSchema, req, res, next),
   registerHandler
 );
 
@@ -35,20 +40,16 @@ authRouter.post(
 // logout
 authRouter.get("/logout", validateLoginStatus, logoutHandler);
 
-// error si no se pasa el token
-authRouter.get(
-  "/verify",
-  (req, res) => {
-    return response(res, 400, "Enlace de verificación no válido")
-  }
+// get login status
+authRouter.get("/login_status", validateLoginStatus, loginStatusHandler);
 
-)
+// error si no se pasa el token
+authRouter.get("/verify", (req, res) => {
+  return response(res, 400, "Enlace de verificación no válido");
+});
 
 // verify acc
-authRouter.get(
-  "/verify/:token",
-  verifyAccountHandler
-)
+authRouter.get("/verify/:token", verifyAccountHandler);
 
 // export
 export default authRouter;
