@@ -1,11 +1,9 @@
 // module imports
 import dotenv from 'dotenv';
-
 // local imports
+
 import app from './src/app.js';
 import sequelize from './src/database.js';
-import { DataTypes } from 'sequelize';
-import transporter from './src/config/nodemailer.js';
 
 // Load environment variables from .env file
 dotenv.config({ path: './.env' });
